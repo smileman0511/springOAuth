@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="jdbcTypeForNull" value="NULL" />
+    </settings>
+
+    <typeAliases>
+        <!-- dto alias -->
+        <typeAlias type="com.app.oauth.domain.dto.MemberDTO" alias="MemberDTO"></typeAlias>
+
+
+        <!-- vo alias -->
+        <typeAlias type="com.app.oauth.domain.vo.MemberVO" alias="MemberVO"></typeAlias>
+        <typeAlias type="com.app.oauth.domain.vo.SocialMemberVO" alias="SocialMemberVO"></typeAlias>
+
+    </typeAliases>
+</configuration>
