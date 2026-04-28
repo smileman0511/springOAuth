@@ -1,57 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.app.oauth.mapper.MemberMapper">
-    <!--     <insert id="insert" parameterType="MemberVO"> -->
-    <!--         <selectKey keyProperty="id" order="BEFORE" resultType="Long"> -->
-    <!--             SELECT SEQ_OAUTH_MEMBER FROM DUAL -->
-    <!--         </selectKey> -->
-    <!--         INSERT INTO TBL_OAUTH_MEMBER -->
-    <!--         VALUES( -->
-    <!--             #{id}, -->
-    <!--             #{memberEmail}, -->
-    <!--             <choose> -->
-    <!--                 <when test="memberPassword != null">#{memberPassword}</when> -->
-    <!--                 <otherwise>NULL</otherwise> -->
-    <!--             </choose>, -->
-    <!--             <choose> -->
-    <!--                 <when test="memberPicture != null">#{memberPicture}</when> -->
-    <!--                 <otherwise>DEFAULT</otherwise> -->
-    <!--             </choose>, -->
-    <!--             #{memberName}, -->
-    <!--             #{memberNickname}, -->
-    <!--             <choose> -->
-    <!--                 <when test="memberProvider != null">#{memberProvider}</when> -->
-    <!--                 <otherwise>DEFAULT</otherwise> -->
-    <!--             </choose> -->
-    <!--         ) -->
-    <!--     </insert> -->
+    <!--    <insert id="insert" parameterType="MemberVO">-->
+    <!--        <selectKey keyProperty="id" order="BEFORE" resultType="Long">-->
+    <!--            SELECT SEQ_OAUTH_MEMBER FROM DUAL-->
+    <!--        </selectKey>-->
+    <!--        INSERT INTO TBL_OAUTH_MEMBER-->
+    <!--        VALUES(-->
+    <!--            #{id},-->
+    <!--            #{memberEmail},-->
+    <!--            <choose>-->
+    <!--                <when test="memberPassword != null">#{memberPassword}</when>-->
+    <!--                <otherwise>NULL</otherwise>-->
+    <!--            </choose>,-->
+    <!--            <choose>-->
+    <!--                <when test="memberPicture != null">#{memberPicture}</when>-->
+    <!--                <otherwise>DEFAULT</otherwise>-->
+    <!--            </choose>,-->
+    <!--            #{memberName},-->
+    <!--            #{memberNickname},-->
+    <!--            <choose>-->
+    <!--                <when test="memberProvider != null">#{memberProvider}</when>-->
+    <!--                <otherwise>DEFAULT</otherwise>-->
+    <!--            </choose>-->
+    <!--        )-->
+    <!--    </insert>-->
     <insert id="insert" parameterType="MemberVO">
         INSERT INTO TBL_MEMBER
-        <selectKey keyProperty="id" order="BEFORE" resultType="Long"> SELECT SEQ_MEMBER.NEXTVAL FROM DUAL </selectKey>
+        <selectKey keyProperty="id" order="BEFORE" resultType="Long">
+            SELECT SEQ_MEMBER.NEXTVAL FROM DUAL
+        </selectKey>
         VALUES(#{id}, #{memberEmail}, #{memberPassword}, #{memberPicture}, #{memberName}, #{memberNickname})
     </insert>
+
     <select id="select" parameterType="Long" resultType="MemberDTO">
-        SELECT ID, MEMBER_EMAIL, MEMBER_PASSWORD, MEMBER_PICTURE, MEMBER_NAME, MEMBER_NICKNAME
-        FROM TBL_MEMBER
-        WHERE ID = #{id}
+        SELECT
+            TBM.ID, TBM.MEMBER_EMAIL, TBM.MEMBER_PASSWORD, TBM.MEMBER_PICTURE, TBM.MEMBER_NAME, TBM.MEMBER_NICKNAME,
+            TBSM.MEMBER_ID, TBSM.SOCIAL_MEMBER_PROVIDER_ID, TBSM.SOCIAL_MEMBER_PROVIDER
+        FROM TBL_MEMBER TBM
+                 JOIN TBL_SOCIAL_MEMBER TBSM
+                      ON TBM.ID = TBSM.MEMBER_ID
+        WHERE TBM.ID = #{id}
     </select>
-    <select id="selectByMemberEmail" parameterType="String" resultType="MemberDTO">
-        SELECT TBM.ID, TBM.MEMBER_EMAIL, TBM.MEMBER_PASSWORD, TBM.MEMBER_PICTURE, TBM.MEMBER_NAME, TBM.MEMBER_NICKNAME,
-               TBSM.MEMBER_ID, TBSM.SOCIAL_MEMBER_PROVIDER_ID, TBSM.SOCIAL_MEMBER_PROVIDER
-        FROM TBL_MEMBER TBM JOIN TBL_SOCIAL_MEMBER TBSM ON TBM.ID = TBSM.MEMBER_ID WHERE MEMBER_EMAIL = #{memberEmail}
-        </select>
-    <select id="existsMemberByMemberEmail" parameterType="String" resultType="_boolean">
+
+    <select id="selectByMemberEmailAndSocialMemberProvider" parameterType="MemberDTO" resultType="MemberDTO">
+        SELECT
+            TBM.ID, TBM.MEMBER_EMAIL, TBM.MEMBER_PASSWORD, TBM.MEMBER_PICTURE, TBM.MEMBER_NAME, TBM.MEMBER_NICKNAME,
+            TBSM.MEMBER_ID, TBSM.SOCIAL_MEMBER_PROVIDER_ID, TBSM.SOCIAL_MEMBER_PROVIDER
+        FROM TBL_MEMBER TBM
+                 JOIN TBL_SOCIAL_MEMBER TBSM
+                      ON TBM.ID = TBSM.MEMBER_ID
+        WHERE TBM.MEMBER_EMAIL = #{memberEmail}
+          AND TBSM.SOCIAL_MEMBER_PROVIDER = #{socialMemberProvider}
+    </select>
+
+    <select id="existsMemberByMemberEmailAndSocialMemberProvider" parameterType="MemberDTO" resultType="_boolean">
         SELECT
             CASE
-                WHEN COUNT(ID) > 0
+                WHEN COUNT(TBM.ID) > 0
                     THEN 1
                 ELSE 0
                 END
-        FROM TBL_MEMBER
-        WHERE MEMBER_EMAIL = #{memberEmail}
+        FROM TBL_MEMBER TBM
+                 JOIN TBL_SOCIAL_MEMBER TBSM
+                      ON TBM.ID = TBSM.MEMBER_ID
+        WHERE TBM.MEMBER_EMAIL = #{memberEmail}
+          AND TBSM.SOCIAL_MEMBER_PROVIDER = #{socialMemberProvider}
     </select>
+
     <update id="update" parameterType="MemberVO">
+
     </update>
+
     <delete id="delete" parameterType="Long">
 
     </delete>

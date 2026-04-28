@@ -24,13 +24,13 @@ public class MemberDAO {
     }
 
     //    회원 조회(memberEmail)
-    public Optional<MemberDTO> findMemberByMemberEmail(String memberEmail){
-        return Optional.ofNullable(memberMapper.selectByMemberEmail(memberEmail));
+    public Optional<MemberDTO> findMemberByMemberEmailAndSocialMemberProvider(MemberDTO memberDTO){
+        return Optional.ofNullable(memberMapper.selectByMemberEmailAndSocialMemberProvider(memberDTO));
     }
 
     //    회원 가입 여부 조회(memberEmail)
-    public boolean existsMemberByMemberEmail(String memberEmail){
-        return memberMapper.existsMemberByMemberEmail(memberEmail);
+    public boolean existsMemberByMemberEmailAndSocialMemberProvider(MemberDTO memberDTO){
+        return memberMapper.existsMemberByMemberEmailAndSocialMemberProvider(memberDTO);
     }
 
     //    회원 수정
