@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 public class MemberResponseDTO {
     private Long id;
     private String memberEmail;
-    private String memberPassword;
     private String memberPicture;
     private String memberName;
     private String memberNickname;
@@ -21,7 +20,6 @@ public class MemberResponseDTO {
         MemberResponseDTO memberResponseDTO = new MemberResponseDTO();
         memberResponseDTO.setId(memberDTO.getId());
         memberResponseDTO.setMemberEmail(memberDTO.getMemberEmail());
-        memberResponseDTO.setMemberPassword(memberDTO.getMemberPassword());
         memberResponseDTO.setMemberPicture(memberDTO.getMemberPicture());
         memberResponseDTO.setMemberName(memberDTO.getMemberName());
         memberResponseDTO.setMemberNickname(memberDTO.getMemberNickname());
@@ -30,4 +28,5 @@ public class MemberResponseDTO {
         memberResponseDTO.setMemberId(memberDTO.getMemberId());
         return memberResponseDTO;
     }
+
 }

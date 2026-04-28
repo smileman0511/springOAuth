@@ -97,7 +97,6 @@ public class Oauth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
             String redirectUrl = "http://localhost:3000";
             getRedirectStrategy().sendRedirect(request, response, redirectUrl);
-
         }
 
     }

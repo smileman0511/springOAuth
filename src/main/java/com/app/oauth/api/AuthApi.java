@@ -15,14 +15,14 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Slf4j
 public class AuthApi {
 
     private final AuthService authService;
-    private final JwtTokenDTO jwtTokenDTO;
+    private final JwtTokenUtil jwtTokenUtil;
 
     // 일반 로그인
     @PostMapping("/login")
@@ -57,10 +57,9 @@ public class AuthApi {
                 .body(new ApiResponseDTO(true, "로그인 성공"));
     }
     // 소셜 로그인 -> security filter
-    // 사용자 정보 조회
 
     // refresh -> accessToken을 재발급하는 api
-
+    // 토큰 정보로 데이터 파싱 후 화면에 응답
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponseDTO> me(
             @CookieValue(name = "refreshToken", required = false) String refreshToken
@@ -70,6 +69,7 @@ public class AuthApi {
         jwtTokenDTO.setRefreshToken(refreshToken);
         jwtTokenDTO = authService.reissueAccessToken(jwtTokenDTO);
 
+        // accessToken 쿠키
         ResponseCookie accessTokenCookie = ResponseCookie
                 .from("accessToken", jwtTokenDTO.getAccessToken())
                 .httpOnly(true) // XSS 공격 차단
@@ -82,7 +82,7 @@ public class AuthApi {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
-                .body(ApiResponseDTO.of("토큰 재발급 완료", jwtTokenDTO));
+                .body(ApiResponseDTO.of("토큰 재발급 완료"));
     }
 
 

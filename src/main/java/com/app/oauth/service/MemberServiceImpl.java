@@ -66,16 +66,6 @@ public class MemberServiceImpl implements MemberService {
         return apiResponseDTO;
     }
 
-    @Override
-    public JwtTokenDTO login(MemberDTO memberDTO) {
-        return null;
-    }
-
-    @Override
-    public void socialLogin(MemberDTO memberDTO) {
-
-    }
-
     // 토큰 -> 회원 정보를 조회하는 서비스
     @Override
     public ApiResponseDTO me(String token) {
@@ -92,3 +82,4 @@ public class MemberServiceImpl implements MemberService {
         return apiResponseDTO;
     }
 }
+

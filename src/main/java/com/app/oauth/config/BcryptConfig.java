@@ -10,7 +10,7 @@ public class BcryptConfig {
     // 순환 참조를 방지하기 위해서 사용하는 BcryptConfig
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 }

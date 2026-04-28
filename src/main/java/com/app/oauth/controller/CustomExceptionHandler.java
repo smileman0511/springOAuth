@@ -16,9 +16,8 @@ public class CustomExceptionHandler {
     }
 
     @ExceptionHandler(JwtTokenException.class)
-    public ResponseEntity<ApiResponseDTO> handleMemberException(JwtTokenException e){
+    public ResponseEntity<ApiResponseDTO> handleJwtTokenException(JwtTokenException e) {
         return ResponseEntity.status(e.getHttpStatus()).body(ApiResponseDTO.of(e.getMessage()));
     }
-
 
 }

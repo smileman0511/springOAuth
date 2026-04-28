@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -72,9 +73,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             memberDTO.setMemberEmail(memberEmail);
             memberDTO.setSocialMemberProvider(socialMemberProvider);
             MemberDTO foundMember = memberDAO.findMemberByMemberEmailAndSocialMemberProvider(memberDTO)
-                    .orElseThrow(() -> { throw new MemberException("회원 조회 실패", HttpStatus.BAD_REQUEST);});
+                    .orElseThrow(() -> {throw new MemberException("doFilterInternal 회원 조회 실패", HttpStatus.BAD_REQUEST);});
 
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(foundMember, null);
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(foundMember, null, List.of());
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
