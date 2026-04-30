@@ -18,6 +18,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.1'
     implementation 'net.nurigo:sdk:4.3.0'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'net.coobird:thumbnailator:0.4.8'

@@ -72,6 +72,12 @@
 
     </update>
 
+    <update id="updatePicture" parameterType="MemberVO">
+        UPDATE TBL_MEMBER
+        SET MEMBER_PICTURE = #{memberPicture}
+        WHERE ID = #{id}
+    </update>
+
     <delete id="delete" parameterType="Long">
 
     </delete>

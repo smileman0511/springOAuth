@@ -16,21 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class MemberApi {
 
     private final MemberService memberService;
-    private final JwtTokenUtil jwtTokenUtil;
 
     // 일반 로그인의 회원가입 경로
     @PostMapping("/join")
     public ResponseEntity<ApiResponseDTO> join(@RequestBody() MemberDTO memberDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(memberService.join(memberDTO));
     }
-
-    // 토큰 정보로 데이터 파싱 후 화면에 응답
-    @GetMapping("/me")
-    public ResponseEntity<ApiResponseDTO> me(
-            @CookieValue(name = "accessToken", required = false) String accessToken
-    ){
-        return ResponseEntity.status(HttpStatus.OK).body(memberService.me(accessToken));
-    }
-
-
 }

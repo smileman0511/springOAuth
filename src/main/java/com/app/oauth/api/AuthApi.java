@@ -82,7 +82,7 @@ public class AuthApi {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
-                .body(ApiResponseDTO.of("토큰 재발급 완료"));
+                .body(ApiResponseDTO.of(true, "토큰 재발급 완료"));
     }
 
 

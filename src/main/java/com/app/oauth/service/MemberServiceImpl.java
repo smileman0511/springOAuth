@@ -13,6 +13,7 @@ import com.app.oauth.util.JwtTokenUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -68,10 +69,7 @@ public class MemberServiceImpl implements MemberService {
 
     // 토큰 -> 회원 정보를 조회하는 서비스
     @Override
-    public ApiResponseDTO me(String token) {
-        Claims claims = jwtTokenUtil.parseToken(token);
-        Long id = Long.parseLong((String)claims.get("id"));
-
+    public ApiResponseDTO me(Long id) {
         MemberDTO foundMember = memberDAO.findMemberById(id)
                 .orElseThrow(() -> {
                     throw new MemberException("me 회원 조회 실패", HttpStatus.BAD_REQUEST);
@@ -81,5 +79,29 @@ public class MemberServiceImpl implements MemberService {
         ApiResponseDTO apiResponseDTO = new ApiResponseDTO(true, "회원 조회 성공", memberResponseDTO);
         return apiResponseDTO;
     }
+
+    @Override
+    public ApiResponseDTO updatePicture(MemberVO memberVO) {
+        Map<String, Object> datas = new HashMap<>();
+        memberDAO.updatePicture(memberVO);
+        datas.put("updatedMemberPictureUrl", memberVO.getMemberPicture());
+        return ApiResponseDTO.of(true, "사진 변경 완료", datas);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

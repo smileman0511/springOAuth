@@ -12,12 +12,12 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(MemberException.class)
     public ResponseEntity<ApiResponseDTO> handleMemberException(MemberException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(ApiResponseDTO.of(e.getMessage()));
+        return ResponseEntity.status(e.getHttpStatus()).body(ApiResponseDTO.of(false, e.getMessage()));
     }
 
     @ExceptionHandler(JwtTokenException.class)
     public ResponseEntity<ApiResponseDTO> handleJwtTokenException(JwtTokenException e) {
-        return ResponseEntity.status(e.getHttpStatus()).body(ApiResponseDTO.of(e.getMessage()));
+        return ResponseEntity.status(e.getHttpStatus()).body(ApiResponseDTO.of(false, e.getMessage()));
     }
 
 }
