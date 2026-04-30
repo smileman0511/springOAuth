@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class JwtAuthenticationEntryPoint  implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         // Api Response DTO 설계 후 반환
-        ApiResponseDTO apiResponseDTO = ApiResponseDTO.of("토큰 없음 또는 인증 실패");
+        ApiResponseDTO apiResponseDTO = ApiResponseDTO.of(false, "토큰 없음 또는 인증 실패");
         String json = objectMapper.writeValueAsString(apiResponseDTO);
         response.getWriter().write(json);
         response.getWriter().flush();
